@@ -8,8 +8,11 @@ from alembic import context
 from app.core.config import settings
 from app.db.base import Base
 
-# Import models so Alembic can detect their tables
+# Import all models so Alembic can detect their tables
+from app.models.goal import FinancialGoal
+from app.models.portfolio import PortfolioHolding
 from app.models.user import User
+
 
 config = context.config
 
@@ -19,7 +22,7 @@ if config.config_file_name is not None:
 # Use the database URL from application settings
 config.set_main_option(
     "sqlalchemy.url",
-    settings.DATABASE_URL.replace("%", "%%")
+    settings.DATABASE_URL.replace("%", "%%"),
 )
 
 # SQLAlchemy metadata for autogeneration

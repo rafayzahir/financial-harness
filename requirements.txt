@@ -15,3 +15,5 @@ numpy
 pytest
 pytest-cov
 pymysql
+httpx>=0.27,<1
+celery[redis]>=5.5,<6
