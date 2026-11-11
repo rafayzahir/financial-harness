@@ -25,6 +25,13 @@ npm run lint
 | `src/pages` | One screen per route |
 | `src/routes` | Navigation list (also tells each page which API it waits for) |
 
+## Theme: Institutional Sovereign
+
+Colors, fonts and motion live in `src/index.css` (design tokens in `@theme`, animation keyframes below).
+Canvas `#0b0f17`, emerald = gain/primary action, indigo = information, amber = risk/delayed/simulated.
+Fonts: Hanken Grotesk (headings), Inter (text), JetBrains Mono (numbers). Animations are CSS only
+and switch off for users with `prefers-reduced-motion`.
+
 ## Rules this project follows
 
 - No fake AI answers, prices or indicators. Empty sections say which API they wait for.

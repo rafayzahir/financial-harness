@@ -1,28 +1,45 @@
 @import "tailwindcss";
 
-/* Financial Harness design tokens: dark navy + professional blue */
+/* ==========================================================================
+   Institutional Sovereign: design tokens
+   Canvas + tonal elevation, emerald (yield/gain), indigo (governance/info),
+   amber (risk/warning), mono numerals, micro-borders instead of heavy shadows.
+   ========================================================================== */
 @theme {
+  --font-display: "Hanken Grotesk", ui-sans-serif, system-ui, sans-serif;
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
 
-  --color-navy-950: #070d1f;
-  --color-navy-900: #0a1128;
-  --color-navy-800: #0f1b3a;
-  --color-navy-700: #16264d;
-  --color-navy-600: #213565;
+  /* Elevation tiers */
+  --color-deep: #080b12;
+  --color-canvas: #0b0f17;
+  --color-panel: #131a26;
+  --color-raised: #1e2638;
+  --color-overlay: #242e42;
+  --color-edge: #26334d;
 
-  --color-brand-300: #93c5fd;
-  --color-brand-400: #60a5fa;
-  --color-brand-500: #3b82f6;
-  --color-brand-600: #2563eb;
+  /* Primary: liquidity / yield / gain */
+  --color-primary: #10b981;
+  --color-primary-dark: #059669;
+  --color-primary-light: #34d399;
 
-  --color-ink-100: #e8eefc;
-  --color-ink-300: #aab6d3;
-  --color-ink-500: #7886a8;
+  /* Secondary: governance / information */
+  --color-govern: #3b82f6;
+  --color-govern-alt: #6366f1;
+  --color-govern-light: #60a5fa;
+  --color-govern-soft: #93c5fd;
 
-  --color-gain: #34d399;
-  --color-loss: #f87171;
-  --color-warn: #fbbf24;
+  /* Tertiary: risk / delayed / simulated */
+  --color-caution: #f59e0b;
+  --color-caution-dark: #d97706;
+  --color-caution-light: #fbbf24;
+
+  /* Text */
+  --color-ink: #dfe2ee;
+  --color-ink-soft: #9aa7bd;
+  --color-ink-mute: #64748b;
+
+  --color-loss: #ffb4ab;
 }
 
 html,
@@ -33,21 +50,389 @@ body,
 
 body {
   margin: 0;
-  background: var(--color-navy-900);
-  color: var(--color-ink-100);
+  background: var(--color-canvas);
+  color: var(--color-ink);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
 }
 
-/* Visible keyboard focus for accessibility */
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+}
+
+::selection {
+  background: rgba(16, 185, 129, 0.3);
+}
+
+/* Thin dark scrollbars */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-edge) transparent;
+}
+
 :focus-visible {
-  outline: 2px solid var(--color-brand-400);
+  outline: 2px solid var(--color-govern);
   outline-offset: 2px;
 }
 
+/* Numbers always aligned (tabular lining) */
+.num {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Surfaces ---------- */
+.surface {
+  position: relative;
+  background: var(--color-panel);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 0.25rem;
+  transition:
+    transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1),
+    border-color 0.3s ease,
+    box-shadow 0.35s ease;
+}
+
+/* Soft emerald light that follows the pointer (set by trackPointer) */
+.spotlight {
+  overflow: hidden;
+}
+.spotlight::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), rgba(16, 185, 129, 0.13), transparent 60%);
+  transition: opacity 0.35s ease;
+}
+.spotlight:hover::before {
+  opacity: 1;
+}
+.spotlight > * {
+  position: relative;
+  z-index: 1;
+}
+
+.lift:hover {
+  transform: translateY(-3px);
+  border-color: rgba(16, 185, 129, 0.35);
+  box-shadow:
+    0 0 0 1px rgba(16, 185, 129, 0.12),
+    0 20px 40px -20px rgba(0, 0, 0, 0.7);
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+  display: inline-flex;
+  height: 2.25rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0 1rem;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  white-space: nowrap;
+  user-select: none;
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease,
+    box-shadow 0.25s ease,
+    border-color 0.2s ease;
+}
+.btn-lg {
+  height: 2.75rem;
+  padding: 0 1.4rem;
+  font-size: 0.95rem;
+}
+.btn-primary {
+  background: var(--color-primary);
+  color: #fff;
+}
+.btn-primary:hover {
+  background: var(--color-primary-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 0 28px -4px rgba(16, 185, 129, 0.65);
+}
+.btn-primary:active {
+  transform: translateY(0);
+}
+.btn-secondary {
+  background: var(--color-raised);
+  border: 1px solid rgba(59, 130, 246, 0.4);
+  color: var(--color-govern-light);
+}
+.btn-secondary:hover {
+  border-color: rgba(59, 130, 246, 0.75);
+  box-shadow: 0 0 24px -6px rgba(59, 130, 246, 0.6);
+  transform: translateY(-1px);
+}
+.btn-ghost {
+  color: var(--color-ink-soft);
+}
+.btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--color-ink);
+}
+.btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+  transform: none;
+  box-shadow: none;
+}
+
+/* ---------- Inputs ---------- */
+.field {
+  height: 2.5rem;
+  width: 100%;
+  border-radius: 0.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: #0f1520;
+  padding: 0 0.85rem;
+  font-size: 0.875rem;
+  color: var(--color-ink);
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+.field::placeholder {
+  color: var(--color-ink-mute);
+}
+.field:focus {
+  outline: none;
+  border-color: var(--color-govern);
+  box-shadow: 0 0 0 1px var(--color-govern);
+}
+.field:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+/* ---------- Text effects ---------- */
+.text-gradient {
+  background: linear-gradient(90deg, #34d399, #60a5fa, #818cf8, #34d399);
+  background-size: 250% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shine 7s linear infinite;
+}
+
+/* ---------- Skeleton shimmer (honest "waiting" state, not data) ---------- */
+.skeleton {
+  border-radius: 0.25rem;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.04) 25%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0.04) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.8s ease-in-out infinite;
+}
+
+/* ---------- Status dot ---------- */
+.dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background: currentColor;
+}
+.dot-live {
+  animation: pulse-dot 2s ease-out infinite;
+}
+
+/* ---------- Entrance + scroll reveal ---------- */
+.enter {
+  animation: fade-up 0.65s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation-delay: var(--d, 0ms);
+}
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition:
+    opacity 0.8s ease,
+    transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition-delay: var(--d, 0ms);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---------- Landing decoration ---------- */
+.grid-bg {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+  background-size: 52px 52px;
+  -webkit-mask-image: radial-gradient(ellipse at 50% 30%, #000 25%, transparent 72%);
+  mask-image: radial-gradient(ellipse at 50% 30%, #000 25%, transparent 72%);
+  animation: grid-pan 14s linear infinite;
+}
+.aurora {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(90px);
+  opacity: 0.35;
+  animation: drift 16s ease-in-out infinite;
+}
+.panel-3d {
+  transform: rotateX(9deg) rotateY(-5deg) translateY(0);
+  transform-style: preserve-3d;
+  transition: transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.panel-3d:hover {
+  transform: rotateX(0deg) rotateY(0deg) translateY(-6px);
+}
+.draw {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: draw 2.8s cubic-bezier(0.4, 0, 0.2, 1) 0.6s forwards;
+}
+.fade-late {
+  opacity: 0;
+  animation: fade-in 1.2s ease 2.2s forwards;
+}
+.bar-rise {
+  transform-origin: bottom;
+  transform: scaleY(0);
+  animation: rise 1s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+  animation-delay: var(--d, 0ms);
+}
+.typing {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 2px solid var(--color-primary-light);
+  width: 0;
+  animation:
+    typing 2.6s steps(28) 0.8s forwards,
+    caret 0.8s step-end infinite;
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 38s linear infinite;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+.flow-line {
+  background: linear-gradient(90deg, transparent, var(--color-primary), transparent);
+  background-size: 200% 100%;
+  animation: shimmer 3s linear infinite;
+}
+.drawer-in {
+  animation: slide-in 0.3s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+/* ---------- Keyframes ---------- */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes slide-in {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: none;
+  }
+}
+@keyframes shimmer {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}
+@keyframes shine {
+  to {
+    background-position: 250% center;
+  }
+}
+@keyframes drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(50px, -34px, 0) scale(1.18);
+  }
+}
+@keyframes grid-pan {
+  to {
+    background-position: 0 52px, 52px 0;
+  }
+}
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes rise {
+  to {
+    transform: scaleY(1);
+  }
+}
+@keyframes typing {
+  to {
+    width: 28ch;
+  }
+}
+@keyframes caret {
+  50% {
+    border-color: transparent;
+  }
+}
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+@keyframes pulse-dot {
+  0% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, currentColor 60%, transparent);
+  }
+  70%,
+  100% {
+    box-shadow: 0 0 0 7px transparent;
+  }
+}
+
+/* Respect users who prefer less motion */
 @media (prefers-reduced-motion: reduce) {
-  * {
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+  .draw {
+    stroke-dashoffset: 0;
+  }
+  .typing {
+    width: 28ch;
   }
 }

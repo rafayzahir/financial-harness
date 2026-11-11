@@ -1,12 +1,13 @@
-import { AlertTriangle, Inbox, Loader2, PlugZap } from 'lucide-react'
+import { AlertTriangle, Inbox, Loader2 } from 'lucide-react'
 import type { ReactNode } from 'react'
+import { StatusChip } from './StatusChip'
 
 function StateShell({ icon, title, text, children }: { icon: ReactNode; title: string; text?: string; children?: ReactNode }) {
   return (
-    <div className="flex flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-navy-600 px-4 py-8 text-center">
-      <div className="text-brand-400">{icon}</div>
-      <p className="text-sm font-medium text-ink-100">{title}</p>
-      {text && <p className="max-w-md text-sm text-ink-500">{text}</p>}
+    <div className="flex flex-col items-center justify-center gap-2 rounded border border-dashed border-edge px-4 py-8 text-center">
+      <div className="text-govern-light">{icon}</div>
+      <p className="text-sm font-medium text-ink">{title}</p>
+      {text && <p className="max-w-md text-sm text-ink-soft">{text}</p>}
       {children}
     </div>
   )
@@ -29,11 +30,7 @@ export function ErrorState({ message, onRetry }: { message: string; onRetry?: ()
     <div role="alert">
       <StateShell icon={<AlertTriangle size={22} className="text-loss" aria-hidden />} title="Something went wrong" text={message}>
         {onRetry && (
-          <button
-            type="button"
-            onClick={onRetry}
-            className="mt-2 rounded-lg bg-brand-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-brand-500"
-          >
+          <button type="button" onClick={onRetry} className="btn btn-primary mt-2">
             Try again
           </button>
         )}
@@ -44,14 +41,24 @@ export function ErrorState({ message, onRetry }: { message: string; onRetry?: ()
 
 /**
  * Honest placeholder used while a backend API does not exist yet.
- * It never shows fake numbers. It only says which dependency is missing.
+ * The shimmering bars are decoration only. They are not data.
  */
 export function ApiPendingState({ dependency }: { dependency: string }) {
   return (
-    <StateShell
-      icon={<PlugZap size={22} aria-hidden />}
-      title="Waiting for backend data"
-      text={`No data yet. This section needs: ${dependency}.`}
-    />
+    <div className="rounded border border-dashed border-edge px-4 py-6">
+      <div className="mb-4 flex items-center gap-2">
+        <StatusChip tone="amber" live>
+          Awaiting API
+        </StatusChip>
+      </div>
+      <div className="space-y-2.5" aria-hidden>
+        <div className="skeleton h-3 w-3/4" />
+        <div className="skeleton h-3 w-1/2" style={{ animationDelay: '0.2s' }} />
+        <div className="skeleton h-3 w-2/3" style={{ animationDelay: '0.4s' }} />
+      </div>
+      <p className="mt-4 text-sm text-ink-soft">
+        No data yet. This section needs: <span className="text-ink">{dependency}</span>.
+      </p>
+    </div>
   )
 }

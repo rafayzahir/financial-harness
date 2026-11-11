@@ -10,8 +10,8 @@ import type { NavItem } from '../routes/navigation'
 export function ModulePage({ item }: { item: NavItem }) {
   return (
     <>
-      <PageHeader title={item.label} description={item.description} />
-      <Card>
+      <PageHeader title={item.label} description={item.description} eyebrow={`Module / ${item.path}`} />
+      <Card delay={80}>
         <ApiPendingState dependency={item.dependency} />
       </Card>
     </>

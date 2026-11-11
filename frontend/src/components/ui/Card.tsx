@@ -1,4 +1,5 @@
-import type { ReactNode } from 'react'
+import type { CSSProperties, ReactNode } from 'react'
+import { trackPointer } from '../../lib/pointer'
 
 interface CardProps {
   title?: string
@@ -6,18 +7,22 @@ interface CardProps {
   action?: ReactNode
   children: ReactNode
   className?: string
+  /** Entrance delay in ms, used to stagger cards */
+  delay?: number
 }
 
-export function Card({ title, subtitle, action, children, className = '' }: CardProps) {
+export function Card({ title, subtitle, action, children, className = '', delay = 0 }: CardProps) {
   return (
     <section
-      className={`rounded-2xl border border-navy-600/60 bg-navy-800 p-5 shadow-lg shadow-black/20 ${className}`}
+      onMouseMove={trackPointer}
+      style={{ '--d': `${delay}ms` } as CSSProperties}
+      className={`surface spotlight lift enter p-6 ${className}`}
     >
       {(title || action) && (
-        <header className="mb-4 flex items-start justify-between gap-3">
+        <header className="mb-5 flex items-start justify-between gap-3">
           <div>
-            {title && <h2 className="text-base font-semibold text-ink-100">{title}</h2>}
-            {subtitle && <p className="mt-0.5 text-sm text-ink-500">{subtitle}</p>}
+            {title && <h2 className="font-display text-lg font-medium tracking-tight text-ink">{title}</h2>}
+            {subtitle && <p className="mt-0.5 text-sm text-ink-soft">{subtitle}</p>}
           </div>
           {action}
         </header>

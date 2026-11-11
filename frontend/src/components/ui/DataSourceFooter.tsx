@@ -1,4 +1,5 @@
 import type { DataMeta } from '../../types/common'
+import { StatusChip } from './StatusChip'
 
 const freshnessLabel: Record<NonNullable<DataMeta['freshness']>, string> = {
   realtime: 'Real-time',
@@ -26,26 +27,24 @@ export function DataSourceFooter({ meta }: { meta?: DataMeta }) {
   if (items.length === 0 && !hasNotes && !meta.isSimulation) return null
 
   return (
-    <footer className="mt-4 space-y-2 border-t border-navy-600/60 pt-3 text-xs text-ink-500">
+    <footer className="mt-5 space-y-3 border-t border-white/5 pt-4 text-xs text-ink-mute">
       {meta.isSimulation && (
-        <p className="inline-block rounded-md bg-warn/15 px-2 py-1 font-medium text-warn">
-          Simulated result. Not a guaranteed return.
-        </p>
+        <StatusChip tone="amber">Simulated result · not a guaranteed return</StatusChip>
       )}
       {items.length > 0 && (
-        <dl className="flex flex-wrap gap-x-5 gap-y-1">
+        <dl className="flex flex-wrap gap-x-6 gap-y-1.5">
           {items.map((i) => (
-            <div key={i.label} className="flex gap-1">
-              <dt className="font-medium text-ink-300">{i.label}:</dt>
-              <dd>{i.value}</dd>
+            <div key={i.label} className="flex gap-1.5">
+              <dt className="num uppercase tracking-wider text-ink-mute">{i.label}</dt>
+              <dd className="num text-ink-soft">{i.value}</dd>
             </div>
           ))}
         </dl>
       )}
       {meta.assumptions && meta.assumptions.length > 0 && (
         <div>
-          <p className="font-medium text-ink-300">Assumptions</p>
-          <ul className="list-disc pl-4">
+          <p className="num uppercase tracking-wider text-ink-soft">Assumptions</p>
+          <ul className="mt-1 list-disc pl-4">
             {meta.assumptions.map((a) => (
               <li key={a}>{a}</li>
             ))}
@@ -54,8 +53,8 @@ export function DataSourceFooter({ meta }: { meta?: DataMeta }) {
       )}
       {meta.limitations && meta.limitations.length > 0 && (
         <div>
-          <p className="font-medium text-ink-300">Limitations</p>
-          <ul className="list-disc pl-4">
+          <p className="num uppercase tracking-wider text-ink-soft">Limitations</p>
+          <ul className="mt-1 list-disc pl-4">
             {meta.limitations.map((l) => (
               <li key={l}>{l}</li>
             ))}

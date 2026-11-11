@@ -1,11 +1,22 @@
 import type { ReactNode } from 'react'
 
-export function PageHeader({ title, description, action }: { title: string; description?: string; action?: ReactNode }) {
+export function PageHeader({
+  title,
+  description,
+  eyebrow,
+  action,
+}: {
+  title: string
+  description?: string
+  eyebrow?: string
+  action?: ReactNode
+}) {
   return (
-    <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
+    <div className="enter mb-8 flex flex-wrap items-end justify-between gap-4">
       <div>
-        <h1 className="text-2xl font-semibold tracking-tight text-ink-100">{title}</h1>
-        {description && <p className="mt-1 max-w-2xl text-sm text-ink-300">{description}</p>}
+        {eyebrow && <p className="num mb-2 text-xs uppercase tracking-[0.18em] text-primary-light">{eyebrow}</p>}
+        <h1 className="text-3xl font-semibold tracking-tight text-ink sm:text-[2rem]">{title}</h1>
+        {description && <p className="mt-2 max-w-2xl text-sm text-ink-soft">{description}</p>}
       </div>
       {action}
     </div>

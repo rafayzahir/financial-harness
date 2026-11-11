@@ -17,14 +17,14 @@ const exampleQuestions = [
 export function AssistantPage() {
   return (
     <>
-      <PageHeader title="AI Assistant" description="Ask stock market questions in plain language." />
-      <div className="grid gap-6 xl:grid-cols-[1fr_320px]">
-        <Card className="flex min-h-[420px] flex-col">
+      <PageHeader eyebrow="Conversation" title="AI Assistant" description="Ask stock market questions in plain language." />
+      <div className="grid gap-6 xl:grid-cols-[1fr_340px]">
+        <Card className="flex min-h-[440px] flex-col" delay={80}>
           <div className="flex-1" aria-live="polite">
             <ApiPendingState dependency="Danial: chat API. Hamid: AI response JSON structure" />
           </div>
           <form
-            className="mt-4 flex gap-2"
+            className="mt-5 flex gap-2"
             onSubmit={(e) => {
               e.preventDefault()
             }}
@@ -32,27 +32,26 @@ export function AssistantPage() {
             <label htmlFor="chat-input" className="sr-only">
               Ask a question
             </label>
-            <input
-              id="chat-input"
-              disabled
-              placeholder="Chat is not available yet"
-              className="min-w-0 flex-1 rounded-xl border border-navy-600 bg-navy-900 px-4 py-2.5 text-sm text-ink-100 placeholder:text-ink-500 disabled:cursor-not-allowed disabled:opacity-60"
-            />
-            <button
-              type="submit"
-              disabled
-              aria-label="Send"
-              className="grid w-11 place-items-center rounded-xl bg-brand-600 text-white disabled:cursor-not-allowed disabled:opacity-50"
-            >
+            <div className="relative min-w-0 flex-1">
+              <span className="num pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-primary-light" aria-hidden>
+                &gt;
+              </span>
+              <input id="chat-input" disabled placeholder="Chat is not available yet" className="field !h-12 !pl-8" />
+            </div>
+            <button type="submit" disabled aria-label="Send" className="btn btn-primary !h-12 !w-12 !px-0">
               <Send size={18} />
             </button>
           </form>
         </Card>
 
-        <Card title="Things you can ask" subtitle="Examples from the project brief">
-          <ul className="space-y-2 text-sm text-ink-300">
-            {exampleQuestions.map((q) => (
-              <li key={q} className="rounded-lg bg-navy-900 px-3 py-2">
+        <Card title="Things you can ask" subtitle="Examples from the project brief" delay={140}>
+          <ul className="space-y-2 text-sm text-ink-soft">
+            {exampleQuestions.map((q, i) => (
+              <li
+                key={q}
+                className="flex gap-3 rounded border border-white/5 bg-canvas/60 px-3 py-2 transition-colors hover:border-primary/30 hover:text-ink"
+              >
+                <span className="num text-xs text-primary-light">{String(i + 1).padStart(2, '0')}</span>
                 {q}
               </li>
             ))}
